@@ -2,9 +2,12 @@
 RESTful api for Wallets App
 
 ## Build
-`$ mvn clear`
-
-`$ mvn install`
+``` $bash
+$ mvn clear
+$ mvn install
+```
 
 ## Run
-`java -jar target/<fat jar>`
+``` $bash
+$ java -jar target/<fat jar>
+```
