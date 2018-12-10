@@ -55,10 +55,11 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.artifactId}-${revision}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
