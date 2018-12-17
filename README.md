@@ -1,5 +1,8 @@
 # wallets-api
-RESTful api for Wallets App
+
+> RESTful api for Wallets App
+
+[![Build Status](https://www.jenkins.oleszynski.com/buildStatus/icon?job=build-and-deploy-wallets-api-master)](https://www.jenkins.oleszynski.com/job/build-and-deploy-wallets-api-master/)
 
 ## Build
 ``` $bash
