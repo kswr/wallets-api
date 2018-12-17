@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class WalletsApiApplication extends SpringBootServletInitializer{
+public class WalletsApiApplication {
+//    @SpringBootApplication
+//    public class WalletsApiApplication extends SpringBootServletInitializer{
 
     public static void main(String[] args) {
         SpringApplication.run(WalletsApiApplication.class, args);
