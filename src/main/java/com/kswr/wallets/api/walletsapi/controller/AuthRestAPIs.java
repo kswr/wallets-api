@@ -9,7 +9,6 @@ import com.kswr.wallets.api.walletsapi.model.User;
 import com.kswr.wallets.api.walletsapi.repo.RoleRepository;
 import com.kswr.wallets.api.walletsapi.repo.UserRepository;
 import com.kswr.wallets.api.walletsapi.security.jwt.JwtProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,20 +27,20 @@ import java.util.Set;
 @RequestMapping("/api/auth")
 public class AuthRestAPIs {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private PasswordEncoder encoder;
+    private JwtProvider jwtProvider;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    JwtProvider jwtProvider;
+    public AuthRestAPIs(AuthenticationManager authenticationManager, UserRepository userRepository,
+                        RoleRepository roleRepository, PasswordEncoder encoder, JwtProvider jwtProvider) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
+        this.jwtProvider = jwtProvider;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
