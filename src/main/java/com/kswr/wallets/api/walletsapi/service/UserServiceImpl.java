@@ -4,7 +4,6 @@ import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -17,12 +16,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User saveUser(User user) {
+    public User save(User user) {
         return repository.save(user);
     }
 
     @Override
-    public Set<String> getAllUsernames() {
-        return repository.getAllUsernames();
+    public Set<String> getAllUserNames() {
+        return repository.getAllUserNames();
+    }
+
+    @Override
+    public boolean existsByUserName(String userName) {
+        return repository.existsByUsername(userName);
     }
 }

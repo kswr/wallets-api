@@ -11,11 +11,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    User save(User user);
-
     @Query(value = "SELECT username FROM User")
-    HashSet<String> getAllUsernames();
+    HashSet<String> getAllUserNames();
 
-
+    boolean existsByUsername(String username);
 
 }

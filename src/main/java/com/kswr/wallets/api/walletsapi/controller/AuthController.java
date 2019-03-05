@@ -1,7 +1,6 @@
 package com.kswr.wallets.api.walletsapi.controller;
 
 import com.kswr.wallets.api.walletsapi.domain.responses.AuthenticationRequest;
-import com.kswr.wallets.api.walletsapi.domain.responses.SignupRequest;
 import com.kswr.wallets.api.walletsapi.repo.UserRepository;
 import com.kswr.wallets.api.walletsapi.security.jwt.JwtTokenProvider;
 import org.springframework.http.ResponseEntity;
