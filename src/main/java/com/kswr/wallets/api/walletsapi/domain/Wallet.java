@@ -1,4 +1,4 @@
-package com.kswr.wallets.api.walletsapi.model;
+package com.kswr.wallets.api.walletsapi.domain;
 
 
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
