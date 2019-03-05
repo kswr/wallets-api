@@ -1,14 +1,19 @@
 package com.kswr.wallets.api.walletsapi.repo;
 
-import com.kswr.wallets.api.walletsapi.model.User;
+import com.kswr.wallets.api.walletsapi.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.HashSet;
 import java.util.Optional;
 
-@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
-    Boolean existsByUsername(String username);
-    Boolean existsByEmail(String email);
+
+    Optional<User> findByUserName(String userName);
+
+    @Query(value = "SELECT userName FROM User")
+    HashSet<String> getAllUserNames();
+
+    boolean existsByUserName(String userName);
+
 }
