@@ -30,7 +30,17 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     @NotEmpty
-    private String username;
+    private String userName;
+
+    @Column(unique=true)
+    @NotEmpty
+    private String email;
+
+    @NotEmpty
+    private String firstName;
+
+    @NotEmpty
+    private String lastName;
 
     @NotEmpty
     private String password;
@@ -51,7 +61,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.userName;
     }
 
     @Override
