@@ -2,7 +2,6 @@ package com.kswr.wallets.api.walletsapi.config;
 
 import com.kswr.wallets.api.walletsapi.security.jwt.JwtConfigurer;
 import com.kswr.wallets.api.walletsapi.security.jwt.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,9 +15,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
+    private JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @Bean
     @Override
