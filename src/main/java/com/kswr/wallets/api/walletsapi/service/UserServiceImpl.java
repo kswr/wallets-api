@@ -2,10 +2,12 @@ package com.kswr.wallets.api.walletsapi.service;
 
 import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.repo.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -16,8 +18,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User save(User user) {
-        return repository.save(user);
+    public boolean save(User user) {
+        if (!repository.existsByUserName(user.getUsername()) && !repository.existsByEmail(user.getEmail())) {
+            repository.save(user);
+            System.out.println("Saved user");
+            log.debug("Saved user " + user.toString());
+            return true;
+        } else {
+            log.debug("Didn't save user " + user.toString());
+            return false;
+        }
     }
 
     @Override
@@ -25,8 +35,4 @@ public class UserServiceImpl implements UserService{
         return repository.getAllUserNames();
     }
 
-    @Override
-    public boolean existsByUserName(String userName) {
-        return repository.existsByUserName(userName);
-    }
 }
