@@ -2,6 +2,7 @@ package com.kswr.wallets.api.walletsapi.service;
 
 import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.repo.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -10,14 +11,19 @@ import java.util.Set;
 public class UserServiceImpl implements UserService{
 
     private UserRepository repository;
+    private PasswordEncoder encoder;
 
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
+        this.encoder = encoder;
     }
 
     @Override
-    public User save(User user) {
-        return repository.save(user);
+    public void save(User user) {
+        if (!repository.existsByUserName(user.getUsername())) {
+            user.setPassword(encoder.encode(user.getPassword()));
+            repository.save(user);
+        }
     }
 
     @Override
@@ -25,8 +31,4 @@ public class UserServiceImpl implements UserService{
         return repository.getAllUserNames();
     }
 
-    @Override
-    public boolean existsByUserName(String userName) {
-        return repository.existsByUserName(userName);
-    }
 }

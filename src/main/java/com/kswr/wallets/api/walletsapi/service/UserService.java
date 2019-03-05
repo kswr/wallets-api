@@ -5,7 +5,6 @@ import com.kswr.wallets.api.walletsapi.domain.User;
 import java.util.Set;
 
 public interface UserService {
-    User save(User user);
+    void save(User user);
     Set<String> getAllUserNames();
-    boolean existsByUserName(String userName);
 }

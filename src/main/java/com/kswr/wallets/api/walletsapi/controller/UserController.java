@@ -2,7 +2,6 @@ package com.kswr.wallets.api.walletsapi.controller;
 
 import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,19 +13,14 @@ import java.util.Set;
 public class UserController {
 
     private UserService userService;
-    private PasswordEncoder encoder;
 
-    public UserController(UserService userService, PasswordEncoder encoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.encoder = encoder;
     }
 
     @PostMapping("/signup")
     public void signUp(@RequestBody User user) {
-        if (!userService.existsByUserName(user.getUsername())) {
-            user.setPassword(encoder.encode(user.getPassword()));
-            userService.save(user);
-        }
+        userService.save(user);
     }
 
     @GetMapping("/allusers")
