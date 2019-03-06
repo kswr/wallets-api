@@ -46,16 +46,31 @@ public class UserController {
         return userService.getAllUserNames();
     }
 
+//    @GetMapping("/me")
+//    public ResponseEntity currentUser(@AuthenticationPrincipal User userDetails){
+//        Map<Object, Object> model = new HashMap<>();
+//        model.put("username", userDetails.getUsername());
+//        model.put("roles", userDetails.getAuthorities()
+//                .stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .collect(toList())
+//        );
+//        model.put("email", userDetails.getEmail());
+//        return ok(model);
+//    }
+
     @GetMapping("/me")
-    public ResponseEntity currentUser(@AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity currentUser(@AuthenticationPrincipal User user){
         Map<Object, Object> model = new HashMap<>();
-        model.put("username", userDetails.getUsername());
-        model.put("roles", userDetails.getAuthorities()
+        model.put("username", user.getUsername());
+        model.put("roles", user.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(toList())
         );
+        model.put("email", user.getEmail());
+        model.put("firstName", user.getFirstName());
+        model.put("lastName", user.getLastName());
         return ok(model);
     }
-
 }
