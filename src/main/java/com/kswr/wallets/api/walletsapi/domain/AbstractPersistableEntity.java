@@ -12,9 +12,7 @@ import java.io.Serializable;
 public abstract class AbstractPersistableEntity<ID> implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     ID id;
 
-    @Version
-    private Long version;
 }

@@ -17,11 +17,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @NoArgsConstructor
 @Table(name = "wallets")
-public class Wallet {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Wallet extends AbstractPersistableEntity<Long> {
 
     @NotBlank
     private String name;
