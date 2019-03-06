@@ -14,7 +14,7 @@ public class WalletsServiceImpl implements WalletsService {
         this.walletsRepo = walletsRepo;
     }
 
-    public Wallet getWalletById(Integer id) {
+    public Wallet getWalletById(Long id) {
         return walletsRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Wallet " + id + " not found"));
     }
 }

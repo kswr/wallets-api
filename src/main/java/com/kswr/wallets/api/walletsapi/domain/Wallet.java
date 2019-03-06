@@ -17,11 +17,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @NoArgsConstructor
 @Table(name = "wallets")
-public class Wallet {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Wallet extends AbstractPersistableEntity<Long> {
 
     @NotBlank
     private String name;
@@ -32,7 +28,7 @@ public class Wallet {
     private Geometry geo;
 
     @Builder
-    public Wallet(Integer id, @NotBlank String name, Geometry geo) {
+    public Wallet(Long id, @NotBlank String name, Geometry geo) {
         this.id = id;
         this.name = name;
         this.geo = geo;
