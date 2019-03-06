@@ -15,7 +15,7 @@ public class WalletsController {
     }
 
     @GetMapping("/{id}")
-    public Wallet getWalletById(@PathVariable("id") Integer id) {
+    public Wallet getWalletById(@PathVariable("id") Long id) {
         return walletsService.getWalletById(id);
     }
 }
