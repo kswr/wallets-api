@@ -1,13 +1,15 @@
 package com.kswr.wallets.api.walletsapi.controller;
 
 import com.kswr.wallets.api.walletsapi.domain.User;
+import com.kswr.wallets.api.walletsapi.domain.dtos.AvatarDTO;
+import com.kswr.wallets.api.walletsapi.domain.requests.UpdateAvatarRequest;
 import com.kswr.wallets.api.walletsapi.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +48,7 @@ public class UserController {
         return userService.getAllUserNames();
     }
 
+    @Transactional
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal User user){
         Map<Object, Object> model = new HashMap<>();
@@ -58,6 +61,23 @@ public class UserController {
         model.put("email", user.getEmail());
         model.put("firstName", user.getFirstName());
         model.put("lastName", user.getLastName());
+        return ok(model);
+    }
+
+    @PostMapping("/avatar")
+    public ResponseEntity updateAvatar(@AuthenticationPrincipal User user, @RequestBody UpdateAvatarRequest avatarRequest) {
+        if (userService.updateAvatar(AvatarDTO.builder().userId(user.getId()).avatar(avatarRequest.getAvatar()).build())) {
+            return ok("Avatar updated");
+        } else {
+            return new ResponseEntity<>("Update unsuccessfull, try again later", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Transactional
+    @GetMapping("/getavatar")
+    public ResponseEntity getAvatar(@AuthenticationPrincipal User user) {
+        Map<Object, Object> model = new HashMap<>();
+        model.put("avatar", userService.getAvatar(user.getId()).getPicture());
         return ok(model);
     }
 }
