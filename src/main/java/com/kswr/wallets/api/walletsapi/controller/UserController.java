@@ -58,15 +58,6 @@ public class UserController {
         return ok(model);
     }
 
-//    @PostMapping("/avatar")
-//    public ResponseEntity updateAvatar(@AuthenticationPrincipal User user, @RequestBody UpdateAvatarRequest avatarRequest) {
-//        if (userService.updateAvatar(AvatarDTO.builder().userId(user.getId()).avatar(avatarRequest.getAvatar()).build())) {
-//            return ok("Avatar updated");
-//        } else {
-//            return new ResponseEntity<>("Update unsuccessfull, try again later", HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
     @GetMapping("/getavatar")
     public ResponseEntity getAvatar(@AuthenticationPrincipal User user) {
         Map<Object, Object> model = new HashMap<>();
