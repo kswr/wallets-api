@@ -1,9 +1,8 @@
 package com.kswr.wallets.api.walletsapi.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Type;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +24,7 @@ import static java.util.stream.Collectors.toList;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(unique = true)
@@ -44,6 +43,19 @@ public class User implements UserDetails {
 
     @NotEmpty
     private String password;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
+    @JoinColumn(name = "avatar_id")
+    @RestResource(path = "userAvatar", rel = "avatar")
+    private Avatar avatar;
+
+//    @Lob
+//    @EqualsAndHashCode.Exclude
+//    @Basic(fetch=FetchType.LAZY)
+//    private Byte[] picture;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
