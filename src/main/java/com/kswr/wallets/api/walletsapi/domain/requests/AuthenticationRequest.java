@@ -1,4 +1,4 @@
-package com.kswr.wallets.api.walletsapi.domain.responses;
+package com.kswr.wallets.api.walletsapi.domain.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
