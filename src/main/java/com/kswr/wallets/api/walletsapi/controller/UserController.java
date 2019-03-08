@@ -1,19 +1,14 @@
 package com.kswr.wallets.api.walletsapi.controller;
 
 import com.kswr.wallets.api.walletsapi.domain.User;
-import com.kswr.wallets.api.walletsapi.domain.dtos.AvatarDTO;
-import com.kswr.wallets.api.walletsapi.domain.requests.UpdateAvatarRequest;
 import com.kswr.wallets.api.walletsapi.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +43,6 @@ public class UserController {
         return userService.getAllUserNames();
     }
 
-    @Transactional
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal User user){
         Map<Object, Object> model = new HashMap<>();
@@ -64,20 +58,32 @@ public class UserController {
         return ok(model);
     }
 
-    @PostMapping("/avatar")
-    public ResponseEntity updateAvatar(@AuthenticationPrincipal User user, @RequestBody UpdateAvatarRequest avatarRequest) {
-        if (userService.updateAvatar(AvatarDTO.builder().userId(user.getId()).avatar(avatarRequest.getAvatar()).build())) {
-            return ok("Avatar updated");
-        } else {
-            return new ResponseEntity<>("Update unsuccessfull, try again later", HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping("/avatar")
+//    public ResponseEntity updateAvatar(@AuthenticationPrincipal User user, @RequestBody UpdateAvatarRequest avatarRequest) {
+//        if (userService.updateAvatar(AvatarDTO.builder().userId(user.getId()).avatar(avatarRequest.getAvatar()).build())) {
+//            return ok("Avatar updated");
+//        } else {
+//            return new ResponseEntity<>("Update unsuccessfull, try again later", HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    @Transactional
     @GetMapping("/getavatar")
     public ResponseEntity getAvatar(@AuthenticationPrincipal User user) {
         Map<Object, Object> model = new HashMap<>();
-        model.put("avatar", userService.getAvatar(user.getId()).getPicture());
+        byte[] picture = userService.getAvatar(user.getId());
+        model.put("id", user.getId());
+        model.put("file", picture);
         return ok(model);
+    }
+
+
+    @PostMapping("/saveavatar")
+    public ResponseEntity saveAvatar(@AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) {
+        if(userService.saveAvatar(file, user.getId())) {
+            return ok("Avatar updated");
+        } else {
+            return new ResponseEntity<>("Update unsuccessful, try again later", HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

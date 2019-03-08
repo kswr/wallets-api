@@ -2,6 +2,7 @@ package com.kswr.wallets.api.walletsapi.domain;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
@@ -18,6 +19,12 @@ public class Avatar extends AbstractPersistableEntity<Long>{
     @OneToOne(mappedBy = "avatar")
     private User user;
 
+    @Column
+    private String fileName;
+
+    @Column
+    private String fileType;
+
     @Lob
-    private Byte[] picture;
+    private byte[] picture;
 }

@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AvatarDTO {
     Long userId;
-    Byte[] avatar;
+    byte[] avatar;
 }

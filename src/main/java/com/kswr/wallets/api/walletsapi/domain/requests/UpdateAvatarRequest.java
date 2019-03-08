@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateAvatarRequest {
-    private Byte[] avatar;
+    private byte[] avatar;
 }
