@@ -1,5 +1,6 @@
 package com.kswr.wallets.api.walletsapi.controller;
 
+import com.kswr.wallets.api.walletsapi.domain.Avatar;
 import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.service.UserService;
 import org.springframework.core.io.ByteArrayResource;
@@ -14,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.ResponseEntity.ok;
@@ -40,11 +40,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/allusers")
-    public Set<String> getAllUserNames() {
-        return userService.getAllUserNames();
-    }
-
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal User user){
         Map<Object, Object> model = new HashMap<>();
@@ -62,14 +57,11 @@ public class UserController {
 
     @GetMapping("/getavatar")
     public ResponseEntity getAvatar(@AuthenticationPrincipal User user) {
-        Map<Object, Object> model = new HashMap<>();
-        byte[] picture = userService.getAvatar(user.getId());
-//        model.put("id", user.getId());
-//        model.put("file", picture);
-//        return ok(model);
+        Avatar avatar = userService.getAvatar(user.getId());
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("image/jpeg"))
-                .body(new ByteArrayResource(picture));
+                .contentType(MediaType.parseMediaType(avatar.getFileType()))
+                .body(new ByteArrayResource(avatar.getPicture()));
+
     }
 
 
