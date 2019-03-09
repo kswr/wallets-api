@@ -2,7 +2,9 @@ package com.kswr.wallets.api.walletsapi.controller;
 
 import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.service.UserService;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -62,9 +64,12 @@ public class UserController {
     public ResponseEntity getAvatar(@AuthenticationPrincipal User user) {
         Map<Object, Object> model = new HashMap<>();
         byte[] picture = userService.getAvatar(user.getId());
-        model.put("id", user.getId());
-        model.put("file", picture);
-        return ok(model);
+//        model.put("id", user.getId());
+//        model.put("file", picture);
+//        return ok(model);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("image/jpeg"))
+                .body(new ByteArrayResource(picture));
     }
 
 
