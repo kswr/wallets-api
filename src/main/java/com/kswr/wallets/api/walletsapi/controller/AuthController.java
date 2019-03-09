@@ -1,5 +1,6 @@
 package com.kswr.wallets.api.walletsapi.controller;
 
+import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.domain.requests.AuthenticationRequest;
 import com.kswr.wallets.api.walletsapi.repo.UserRepository;
 import com.kswr.wallets.api.walletsapi.security.jwt.JwtTokenProvider;
@@ -39,11 +40,17 @@ public class AuthController {
         try {
             String username = data.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
-            String token = jwtTokenProvider.createToken(username, this.users.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username " + username + "not found")).getRoles());
+            User user = users.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+            String token = jwtTokenProvider.createToken(username, user.getRoles());
 
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);
             model.put("token", token);
+            model.put("id", user.getId());
+            model.put("firstName", user.getFirstName());
+            model.put("lastName", user.getLastName());
+            model.put("roles", user.getRoles());
+            model.put("email", user.getEmail());
             return ok(model);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
