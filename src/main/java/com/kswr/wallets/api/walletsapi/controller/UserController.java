@@ -1,8 +1,11 @@
 package com.kswr.wallets.api.walletsapi.controller;
 
+import com.kswr.wallets.api.walletsapi.domain.Avatar;
 import com.kswr.wallets.api.walletsapi.domain.User;
 import com.kswr.wallets.api.walletsapi.service.UserService;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.ResponseEntity.ok;
@@ -38,11 +40,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/allusers")
-    public Set<String> getAllUserNames() {
-        return userService.getAllUserNames();
-    }
-
+    // todo probably unnecessary endpoint
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal User user){
         Map<Object, Object> model = new HashMap<>();
@@ -58,15 +56,13 @@ public class UserController {
         return ok(model);
     }
 
-    @GetMapping("/getavatar")
-    public ResponseEntity getAvatar(@AuthenticationPrincipal User user) {
-        Map<Object, Object> model = new HashMap<>();
-        byte[] picture = userService.getAvatar(user.getId());
-        model.put("id", user.getId());
-        model.put("file", picture);
-        return ok(model);
+    @GetMapping(path = "/getavatar/{userId}")
+    public ResponseEntity getAvatarId(@PathVariable("userId") String userId) {
+        Avatar avatar = userService.getAvatar(Long.valueOf(userId));
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(avatar.getFileType()))
+                .body(new ByteArrayResource(avatar.getPicture()));
     }
-
 
     @PostMapping("/saveavatar")
     public ResponseEntity saveAvatar(@AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) {

@@ -47,15 +47,9 @@ public class User implements UserDetails {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
     @JoinColumn(name = "avatar_id")
     @RestResource(path = "userAvatar", rel = "avatar")
     private Avatar avatar;
-
-//    @Lob
-//    @EqualsAndHashCode.Exclude
-//    @Basic(fetch=FetchType.LAZY)
-//    private Byte[] picture;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
