@@ -40,6 +40,7 @@ public class UserController {
         }
     }
 
+    // todo probably unnecessary endpoint
     @GetMapping("/me")
     public ResponseEntity currentUser(@AuthenticationPrincipal User user){
         Map<Object, Object> model = new HashMap<>();
@@ -55,13 +56,12 @@ public class UserController {
         return ok(model);
     }
 
-    @GetMapping("/getavatar")
-    public ResponseEntity getAvatar(@AuthenticationPrincipal User user) {
-        Avatar avatar = userService.getAvatar(user.getId());
+    @GetMapping(path = "/getavatar/{userId}")
+    public ResponseEntity getAvatarId(@PathVariable("userId") String userId) {
+        Avatar avatar = userService.getAvatar(Long.valueOf(userId));
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(avatar.getFileType()))
                 .body(new ByteArrayResource(avatar.getPicture()));
-
     }
 
     @PostMapping("/saveavatar")
