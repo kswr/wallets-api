@@ -64,7 +64,6 @@ public class UserController {
 
     }
 
-
     @PostMapping("/saveavatar")
     public ResponseEntity saveAvatar(@AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) {
         if(userService.saveAvatar(file, user.getId())) {
