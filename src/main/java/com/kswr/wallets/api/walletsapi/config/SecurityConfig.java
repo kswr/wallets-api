@@ -4,6 +4,7 @@ import com.kswr.wallets.api.walletsapi.security.jwt.JwtConfigurer;
 import com.kswr.wallets.api.walletsapi.security.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -39,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/getavatar/*").permitAll()
+                .antMatchers(HttpMethod.OPTIONS,"/saveavatar").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
             .and()
